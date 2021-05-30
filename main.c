@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "functions.h"
 
 /*
@@ -13,17 +14,36 @@ You may do this by "make clean" or simply "rm main"
 */
 
 int main(){
-
     /*
-    Function calls here to test your code
-    Example:
-    float ***sector_times, **laptimes;
+    ;
     unsigned int fastest_lap, **positions;
-    sector_times = create_sector_times(...);
-    positions = create_positions(...);
-    lap_times = calculate_lap_times(...);
-    fastest_lap = find_fastest_lap(lap_times, ...);
-    printf("Printing fastest lap to check the answer: %d\n", fastest_lap);
+    float **laptimes;
     */
+    float ***sector_times;
+    int i, j, k;
+    unsigned int n_drivers;
+    unsigned int n_laps;
+    sector_times = create_sector_times(&n_drivers, &n_laps);
+    /* TESTING FUNCTION */
+    printf("%u %u\n", n_drivers, n_laps);
+    for (i = 0; i < n_drivers; i++)
+    {
+
+        for (j = 0; j < n_laps; j ++)
+        {
+
+            for (k = 0; k < 3; k++)
+            {
+                printf("%.2f ", sector_times[i][j][k]); 
+            }
+            printf("\n");
+        }
+    }
+    /*
+    positions = create_positions();
+    lap_times = calculate_lap_times();
+    fastest_lap = find_fastest_lap(lap_times, ); 
+    printf("Printing fastest lap to check the answer: %d\n", fastest_lap);*/
+
     return 0;
 }

@@ -6,10 +6,31 @@
 /* Fill in the functions and define helper functions if you need to */
 
 float*** create_sector_times(unsigned int* n_drivers, unsigned int* n_laps){
-    return NULL;
+    int i, j, k;
+    float ***sector_times;
+    scanf("%u %u", n_drivers, n_laps);
+    sector_times = (float ***) malloc(sizeof(float **)*(*n_drivers));
+    for (i = 0; i < *n_drivers; i++)
+    {
+        float temp;
+        *(sector_times + i) = (float **) malloc(sizeof(float *)*(*n_laps));
+        for (j = 0; j < *n_laps; j ++)
+        {
+            *(*(sector_times + i) + j) = (float *) malloc(sizeof(float)*3);
+            for (k = 0; k < 3; k++)
+            {
+                scanf(" %f",&temp);
+                *(*(*(sector_times + i) + j) + k) = temp;
+                /* printf("%f ", drivers[i][j][k]); */
+            }
+            /* printf("\n"); */
+        }
+    }
+
+    return sector_times;
 }
 
-
+/*
 unsigned int** create_positions(unsigned int* p_drivers, unsigned int* n_races){
     return NULL;
 }
@@ -54,3 +75,4 @@ unsigned int* calculate_total_points(unsigned int** positions, unsigned int p_dr
 unsigned int find_season_ranking(int* total_points, unsigned int p_drivers, unsigned int id){
     return 0;
 }
+*/
