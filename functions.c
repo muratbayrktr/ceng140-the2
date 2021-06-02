@@ -30,12 +30,26 @@ float*** create_sector_times(unsigned int* n_drivers, unsigned int* n_laps){
     return sector_times;
 }
 
-/*
+
 unsigned int** create_positions(unsigned int* p_drivers, unsigned int* n_races){
-    return NULL;
+    unsigned int **positions;
+    int i,j;
+    scanf("%u %u", p_drivers, n_races);
+    positions = (unsigned int **) malloc(sizeof(unsigned int **)*(*p_drivers));
+    for (i = 0; i < *p_drivers; i++)
+    {
+        *(positions + i) = (unsigned int *) malloc(sizeof(unsigned int)*(*n_races));
+        for (j = 0; j < *n_races; j++)
+        {
+            unsigned int temp;
+            scanf("%u ",&temp);
+            *(*(positions+i)+j) = temp;
+        }
+    }
+    return positions;
 }
 
-
+/*
 float** calculate_lap_times(float*** sector_times, unsigned int n_drivers, unsigned int n_laps){
     return NULL;
 }
@@ -46,7 +60,7 @@ unsigned int find_fastest_lap(float** lap_times, unsigned int n_drivers, unsigne
 }
 
 
-unsigned int find_driver_fastest_lap(float lap_times_of_driver[][3], unsigned int n_laps){
+unsigned int find_driver_fastest_lap(float **sector_times_of_driver, unsigned int n_laps){
     return 0;
 }
 
@@ -72,7 +86,7 @@ unsigned int* calculate_total_points(unsigned int** positions, unsigned int p_dr
 }
 
 
-unsigned int find_season_ranking(int* total_points, unsigned int p_drivers, unsigned int id){
+unsigned int find_season_ranking(unsigned int* total_points, unsigned int p_drivers, unsigned int id){
     return 0;
 }
 */
