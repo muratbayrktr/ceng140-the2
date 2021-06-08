@@ -49,19 +49,66 @@ unsigned int** create_positions(unsigned int* p_drivers, unsigned int* n_races){
     return positions;
 }
 
-/*
+
 float** calculate_lap_times(float*** sector_times, unsigned int n_drivers, unsigned int n_laps){
-    return NULL;
+    float **lap_times = (float **) malloc(sizeof(float *)*(n_drivers));
+    unsigned int i, j, k;
+    for (i = 0; i < n_drivers; i++) *(lap_times+i) = (float *) malloc(sizeof(float)*(n_laps));
+
+    for (i = 0; i < n_drivers; i++)
+    {
+        for (j = 0; j < n_laps; j ++)
+        {
+            float sum = 0;
+            for (k = 0; k < 3; k++)
+            {
+                sum += sector_times[i][j][k];
+            }
+            lap_times[i][j] = sum;
+        }
+    }
+    return lap_times;
 }
 
 
 unsigned int find_fastest_lap(float** lap_times, unsigned int n_drivers, unsigned int n_laps){
-    return 0;
+    unsigned int i = 0, j = 0;
+    float fastest_lap = lap_times[i][j];
+    unsigned int id = 0;
+    for (i = 0; i < n_drivers; i++)
+    {
+        for (j = 0; j < n_laps; j ++)
+        {
+            float lap = lap_times[i][j];
+            if (lap < fastest_lap) {
+                fastest_lap = lap;
+                id = i;
+            }
+        }
+    }
+    return id;
 }
 
 
 unsigned int find_driver_fastest_lap(float **sector_times_of_driver, unsigned int n_laps){
-    return 0;
+    unsigned int i = 0, j = 0;
+    float fastest_lap = { sector_times_of_driver[i][j] + 
+                        sector_times_of_driver[i][j+1] + 
+                        sector_times_of_driver[i][j+2] }; 
+    unsigned int lap_id = i;
+    for (i = 0; i < n_laps; i++)
+    {
+        float lap = 0;
+        for (j = 0; j < 3; j ++)
+        {
+            lap += sector_times_of_driver[i][j];
+        }
+        if (lap < fastest_lap) {
+            fastest_lap = lap;
+            lap_id = i;
+        }
+    }
+    return lap_id;
 }
 
 
@@ -69,7 +116,7 @@ float* selection_sort(float* arr, unsigned int len, char ord){
     return NULL;
 }
 
-
+/*
 unsigned int* find_finishing_positions(float** lap_times, unsigned int n_drivers, unsigned int n_laps){
     return NULL;
 }
