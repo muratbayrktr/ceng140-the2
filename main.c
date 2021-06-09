@@ -71,18 +71,37 @@ int main(){
         printf("\n");
     }
     {
+        /* 4TH FUNCTION */
         printf("----4th Function----\n");
         fastest_lap = find_fastest_lap(lap_times, n_drivers, n_laps); 
         printf("ID of the driver that has the fastest lap: %u\n", fastest_lap);
         printf("\n");
     }
     {
+        /* 5TH FUNCTION */
         unsigned int driver_fastest_lap;
         printf("----5th Function----\n");
         for (i = 0; i < n_drivers; i++)
         {
             driver_fastest_lap = find_driver_fastest_lap(sector_times[i], n_laps);
             printf("Fastest lap of the driver %u: lap %u\n",i, driver_fastest_lap);
+        }
+        printf("\n");
+    }
+    {
+        /* 6TH FUNCTION */
+        float arr[] = {3.0, 2.0, 7.0, 9.0, 4.0};
+        /* 'A' = Ascending order || 'D' = Descending order */
+        float *sorted_arr;
+
+        int j;
+        printf("----6th Function----\n");
+        
+        sorted_arr = selection_sort(arr, 5, 'A');
+
+        for (j = 0; j < 5; j++)
+        {
+            printf("%.1f\n", sorted_arr[j]);
         }
         printf("\n");
     }

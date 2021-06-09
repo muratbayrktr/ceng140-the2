@@ -113,7 +113,43 @@ unsigned int find_driver_fastest_lap(float **sector_times_of_driver, unsigned in
 
 
 float* selection_sort(float* arr, unsigned int len, char ord){
-    return NULL;
+    float *sorted = (float *) malloc(sizeof(float)*len);
+    unsigned int i = 0;
+    float *current_ult;
+    float *current_item;
+    float temp;
+    float *end = arr + len - 1; /* element after the last index */
+    while(i < len)
+    {
+        /* initialize */
+        current_ult = current_item = arr + i;
+        /* Find the minimum/maximum in the unsorted list */
+        while (current_item <= end)
+        {
+            switch (ord)
+            {
+                case 'A':
+                {
+                    if (*current_item < *current_ult) current_ult = current_item;
+                    break;
+                }
+                        
+                case 'D':
+                {
+                    if (*current_item > *current_ult) current_ult = current_item;
+                    break;
+                }
+            }
+            current_item++;
+        }
+        /* swap & add to sorted list */
+        temp = *(arr + i);
+        arr[i] = *current_ult;
+        *current_ult = temp;
+        sorted[i] = arr[i];
+        i++;
+    }
+    return sorted;
 }
 
 /*
