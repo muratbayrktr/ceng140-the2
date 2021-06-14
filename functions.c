@@ -75,12 +75,13 @@ unsigned int find_fastest_lap(float** lap_times, unsigned int n_drivers, unsigne
     unsigned int i = 0, j = 0;
     float fastest_lap = lap_times[i][j];
     unsigned int id = 0;
+    float epsilon = 0.0001;
     for (i = 0; i < n_drivers; i++)
     {
         for (j = 0; j < n_laps; j ++)
         {
             float lap = lap_times[i][j];
-            if (lap < fastest_lap) {
+            if (fastest_lap - lap > epsilon ) {
                 fastest_lap = lap;
                 id = i;
             }
@@ -95,6 +96,7 @@ unsigned int find_driver_fastest_lap(float **sector_times_of_driver, unsigned in
     float fastest_lap = { sector_times_of_driver[i][j] + 
                         sector_times_of_driver[i][j+1] + 
                         sector_times_of_driver[i][j+2] }; 
+    float epsilon = 0.0001;
     unsigned int lap_id = i;
     for (i = 0; i < n_laps; i++)
     {
@@ -103,7 +105,7 @@ unsigned int find_driver_fastest_lap(float **sector_times_of_driver, unsigned in
         {
             lap += sector_times_of_driver[i][j];
         }
-        if (lap < fastest_lap) {
+        if (fastest_lap - lap > epsilon ) {
             fastest_lap = lap;
             lap_id = i;
         }
@@ -153,49 +155,26 @@ float* selection_sort(float* arr, unsigned int len, char ord){
 }
 unsigned int* sort_finishing_positions(float *arr, unsigned int len, unsigned int *finishing_pos)
 {
-    float *sorted = (float *) malloc(sizeof(float)*len);
-    unsigned int *sorted_pos = (unsigned int *) malloc(sizeof(float)*len);
-    unsigned int i = 0;
-    float *current_ult;
-    float *current_item;
-    unsigned int *current_ult_pos;
-    unsigned int *current_item_pos;
-    float temp;
+    unsigned int i, k;
     unsigned int temp_pos;
-    float *end = arr + len - 1; /* element after the last index */
-    while(i < len)
+    float epsilon = 0.0001, temp;
+    for (i = 0; i < len; i++)
     {
-        /* initialize */
-        current_ult = current_item = arr + i;
-        current_ult_pos = current_item_pos = finishing_pos + i;
-        /* Find the minimum/maximum in the unsorted list */
-
-        while (current_item <= end)
+        for (k = 1; k < len; k++)
         {
-            
-            if (*current_item < *current_ult) 
+            if (arr[k-1] - arr[k] > epsilon) 
             {
-                current_ult = current_item; 
-                current_ult_pos = current_item_pos;
-            }
-            current_item++;
-            current_item_pos++;
-        }
-        /* swap & add to sorted list */
-        temp = *(arr + i);
-        arr[i] = *current_ult;
-        *current_ult = temp;
-        sorted[i] = arr[i];
-        
-        temp_pos = *(finishing_pos + i);
-        finishing_pos[i] = *current_ult_pos;
-        *current_ult_pos = temp_pos;
-        sorted_pos[i] = finishing_pos[i];
-        
-        i++;
-    }
+                temp = arr[k];
+                arr[k] = arr[k-1];
+                arr[k-1] = temp; 
 
-    return sorted_pos;
+                temp_pos = finishing_pos[k];
+                finishing_pos[k] = finishing_pos[k-1];
+                finishing_pos[k-1] = temp_pos;
+            }
+        }
+    }
+    return finishing_pos;
 }
 
 unsigned int* find_finishing_positions(float** lap_times, unsigned int n_drivers, unsigned int n_laps){

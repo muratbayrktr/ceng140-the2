@@ -63,11 +63,15 @@ int main(){
         lap_times = calculate_lap_times(sector_times, n_drivers, n_laps);
         for (i = 0; i < n_drivers; i++)
         {
+            float sum = 0;
             for (j = 0; j < n_laps; j ++)
             {
+                sum += lap_times[i][j];
                 printf("Driver %u: Lap %u: %f\n", i, j, lap_times[i][j]);
             }
+            printf("Total: %f\n",sum);
             printf("\n");
+            
         }
         printf("\n");
     }
