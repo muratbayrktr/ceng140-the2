@@ -151,25 +151,130 @@ float* selection_sort(float* arr, unsigned int len, char ord){
     }
     return sorted;
 }
+unsigned int* sort_finishing_positions(float *arr, unsigned int len, unsigned int *finishing_pos)
+{
+    float *sorted = (float *) malloc(sizeof(float)*len);
+    unsigned int *sorted_pos = (unsigned int *) malloc(sizeof(float)*len);
+    unsigned int i = 0;
+    float *current_ult;
+    float *current_item;
+    unsigned int *current_ult_pos;
+    unsigned int *current_item_pos;
+    float temp;
+    unsigned int temp_pos;
+    float *end = arr + len - 1; /* element after the last index */
+    while(i < len)
+    {
+        /* initialize */
+        current_ult = current_item = arr + i;
+        current_ult_pos = current_item_pos = finishing_pos + i;
+        /* Find the minimum/maximum in the unsorted list */
 
-/*
+        while (current_item <= end)
+        {
+            
+            if (*current_item < *current_ult) 
+            {
+                current_ult = current_item; 
+                current_ult_pos = current_item_pos;
+            }
+            current_item++;
+            current_item_pos++;
+        }
+        /* swap & add to sorted list */
+        temp = *(arr + i);
+        arr[i] = *current_ult;
+        *current_ult = temp;
+        sorted[i] = arr[i];
+        
+        temp_pos = *(finishing_pos + i);
+        finishing_pos[i] = *current_ult_pos;
+        *current_ult_pos = temp_pos;
+        sorted_pos[i] = finishing_pos[i];
+        
+        i++;
+    }
+
+    return sorted_pos;
+}
+
 unsigned int* find_finishing_positions(float** lap_times, unsigned int n_drivers, unsigned int n_laps){
-    return NULL;
+    unsigned int i,j;
+    unsigned int* finishing_positions = (unsigned int*) malloc(sizeof(unsigned int)*n_drivers);
+    float *total_laps = (float *) malloc(sizeof(float)*n_drivers);
+    
+    for (i = 0; i < n_drivers; i++)
+    {
+        float lap_sum = 0;
+        finishing_positions[i] = i;
+        for (j = 0; j < n_laps; j++)
+        {
+            lap_sum += lap_times[i][j];
+        }
+        total_laps[i] = lap_sum;
+    }
+    sort_finishing_positions(total_laps, n_drivers, finishing_positions);
+
+    return finishing_positions;
 }
 
 
 float* find_time_diff(float** lap_times, unsigned int n_drivers, unsigned int n_laps, unsigned int driver1,
     unsigned int driver2){
-    return NULL;
+    unsigned int i = 0;
+    float * time_diff_arr = (float *) malloc(sizeof(float)*n_laps);
+    float cum_diff = 0;
+    for (i = 0; i < n_laps; i++)
+    {
+        float diff = lap_times[driver1][i] - lap_times[driver2][i];
+        cum_diff += diff;
+        time_diff_arr[i] = cum_diff;
+    }
+    return time_diff_arr;
 }
 
 
 unsigned int* calculate_total_points(unsigned int** positions, unsigned int p_drivers, unsigned int n_races){
-    return NULL;
+    unsigned int* position_point_map = (unsigned int *) malloc(sizeof(unsigned int)*p_drivers);
+    unsigned int* total_points = (unsigned int *) malloc(sizeof(unsigned int)*p_drivers);
+    unsigned int i, j;
+
+    for (i = 0; i < p_drivers; i++)
+    {
+        scanf("%u ", position_point_map + i);
+    }
+
+    for (i = 0; i < p_drivers; i++)
+    {
+        unsigned int points = 0;
+        for (j = 0; j < n_races; j++)
+        {
+            unsigned int index = positions[i][j] - 1;
+            points += position_point_map[index];
+        }
+        total_points[i] = points;
+    }
+    return total_points;
 }
 
 
 unsigned int find_season_ranking(unsigned int* total_points, unsigned int p_drivers, unsigned int id){
-    return 0;
+    unsigned int points_of_the_driver = total_points[id];
+    unsigned int rank = 1;
+    unsigned int i;
+    for (i = 0; i < p_drivers; i++)
+    {
+        if (total_points[i] > points_of_the_driver)
+        {
+            rank++;
+        } else if (total_points[i] == points_of_the_driver)
+        {
+            if (id > i)
+            {
+                rank++;
+            }
+        }
+    }
+
+    return rank;
 }
-*/

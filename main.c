@@ -14,10 +14,13 @@ You may do this by "make clean" or simply "rm main"
 */
 
 int main(){
-    float ***sector_times, **lap_times;
+    float ***sector_times, **lap_times, *time_diff_arr;
     unsigned int n_drivers, n_laps;
     unsigned int **positions;
     unsigned int fastest_lap;
+    unsigned int p_drivers, n_races;
+    unsigned int *finishing_positions;
+    unsigned int *total_points;
     int i, j, k;
     /* TESTING FUNCTIONS */
     {
@@ -40,8 +43,6 @@ int main(){
     }
     {
         /* 2ND FUNCTION */
-        
-        unsigned int p_drivers, n_races;
         printf("----2nd Function----\n");
         positions = create_positions(&p_drivers,&n_races);
         printf("%u %u\n", p_drivers, n_races);
@@ -105,6 +106,47 @@ int main(){
         }
         printf("\n");
     }
-    
+    {
+        /* 7TH FUNCTION */
+        unsigned int i;  
+        printf("----7th Function----\n");
+        finishing_positions = find_finishing_positions(lap_times, n_drivers, n_laps);
+        for (i = 0; i < n_drivers; i++)
+        {
+            printf("%u ",finishing_positions[i]);
+        }
+        printf("\n\n");
+    }
+    {
+        /* 8TH FUNCTION */
+        unsigned int i;  
+        printf("----8th Function----\n");
+        time_diff_arr = find_time_diff(lap_times,n_drivers,n_laps,0,1);
+        for (i = 0; i < n_laps; i++)
+        {
+            printf("Cumulative Time diff: %f\n", time_diff_arr[i]);
+        }
+        printf("\n\n");
+        
+    }
+    {
+        /* 9TH FUNCTION */
+        unsigned int i = 0;
+        printf("----9th Function----\n");
+        total_points = calculate_total_points(positions,p_drivers,n_races);
+        for (i = 0; i < p_drivers; i++)
+        {
+            printf("Total points of driver %u is %u\n",i,total_points[i]);
+        }
+
+        printf("\n\n");
+    }
+    {
+        /* 10TH FUNCTION */
+        unsigned int rank = find_season_ranking(total_points,p_drivers,1);
+        printf("----10th Function----\n");
+        printf("Season rank of the driver %u is %u\n",1,rank);
+        printf("\n\n");
+    }    
     return 0;
 }
